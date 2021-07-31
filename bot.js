@@ -10,6 +10,7 @@ const twitterClient = new Twitter({
     access_token_secret: process.env.TWITTER_ACCESS_SECRET,
 })
 const newCatsThisHour = async () => {
+    console.log("Checking for new cat")
     const hourAgo = new Date(new Date().getTime() - 1000 * 60 * 60).toISOString();
     let catsWithPhotos = []
     try {
@@ -32,9 +33,11 @@ const newCatsThisHour = async () => {
         )
         const { animals } = await catResponse.json()
         if (animals.length===0) {
+            console.log("No new cats")
             return null
         }
         if (animals.length > 0){
+            console.log("Found some cats")
             //Filter cats with photos
             catsWithPhotos = animals.filter(animal => animal.photos.length > 0)
             return catsWithPhotos
@@ -58,6 +61,7 @@ const shareCat = async() => {
                 else console.log(err)
             }
         )
+        console.log("finish sharing")
     }
 }
 shareCat()
